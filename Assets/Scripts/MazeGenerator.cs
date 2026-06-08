@@ -24,9 +24,11 @@ namespace TheCube
             {
                 // no-op for now; this uses the `initialRooms` field to avoid compiler warnings
             }
+        }
 
         public void GenerateAroundPlayer(Vector3 playerPosition)
         {
         }
+
     }
 }
