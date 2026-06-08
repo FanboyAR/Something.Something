@@ -17,10 +17,10 @@ namespace TheCube
             room.roomType = type;
 
             CreateFloor(root.transform, roomSize);
-            CreateWall(root.transform, new Vector3(0f, wallHeight * 0.5f, roomSize * 0.5f), new Vector3(roomSize, wallHeight, wallThickness));
-            CreateWall(root.transform, new Vector3(0f, wallHeight * 0.5f, -roomSize * 0.5f), new Vector3(roomSize, wallHeight, wallThickness));
-            CreateWall(root.transform, new Vector3(roomSize * 0.5f, wallHeight * 0.5f, 0f), new Vector3(wallThickness, wallHeight, roomSize));
-            CreateWall(root.transform, new Vector3(-roomSize * 0.5f, wallHeight * 0.5f, 0f), new Vector3(wallThickness, wallHeight, roomSize));
+            CreateWall(root.transform, new Vector3(0f, wallHeight * 0.5f, roomSize * 0.5f), new Vector3(roomSize, wallHeight, wallThickness), new Color(0.9f, 0.9f, 0.9f));
+            CreateWall(root.transform, new Vector3(0f, wallHeight * 0.5f, -roomSize * 0.5f), new Vector3(roomSize, wallHeight, wallThickness), new Color(0.9f, 0.9f, 0.9f));
+            CreateWall(root.transform, new Vector3(roomSize * 0.5f, wallHeight * 0.5f, 0f), new Vector3(wallThickness, wallHeight, roomSize), new Color(0.9f, 0.9f, 0.9f));
+            CreateWall(root.transform, new Vector3(-roomSize * 0.5f, wallHeight * 0.5f, 0f), new Vector3(wallThickness, wallHeight, roomSize), new Color(0.9f, 0.9f, 0.9f));
             CreateCeiling(root.transform, roomSize, wallHeight);
 
             switch (type)
