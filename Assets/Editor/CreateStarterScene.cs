@@ -45,20 +45,17 @@ namespace TheCube.Editor
 
         public static void PopulateStarterScene(Scene scene)
         {
-            bool hasStarterRoot = GameObject.Find("StarterRoomRoot") != null;
-            bool hasPlayer = GameObject.Find("Player") != null;
-            bool hasCamera = GameObject.FindGameObjectWithTag("MainCamera")?.GetComponent<Camera>() != null;
-            bool hasFactory = Object.FindAnyObjectByType<RoomFactory>() != null;
-
-            if (hasStarterRoot && hasPlayer && hasCamera && hasFactory)
+            if (scene.path != StarterScenePath)
                 return;
 
+            Debug.Log("Rebuilding StarterScene with updated room content.");
             ClearScene(scene);
             CreateLighting();
             CreateGroundPlane();
             CreateStarterRooms();
             CreatePlayerStart(new Vector3(-24f, 1f, 0f));
             EditorSceneManager.MarkSceneDirty(scene);
+            EditorSceneManager.SaveScene(scene);
         }
 
         private static void ClearScene(Scene scene)
