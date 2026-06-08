@@ -50,17 +50,17 @@ namespace TheCube
             floor.transform.localPosition = Vector3.zero;
             floor.transform.localRotation = Quaternion.identity;
             floor.transform.localScale = Vector3.one * (size / 10f);
-            SetColor(floor, new Color(0.85f, 0.85f, 0.85f));
+            SetColor(floor, new Color(0.8f, 0.8f, 0.8f));
         }
 
-        private void CreateWall(Transform parent, Vector3 localPosition, Vector3 scale)
+        private void CreateWall(Transform parent, Vector3 localPosition, Vector3 scale, Color color)
         {
             var wall = GameObject.CreatePrimitive(PrimitiveType.Cube);
             wall.name = "Wall";
             wall.transform.parent = parent;
             wall.transform.localPosition = localPosition;
             wall.transform.localScale = scale;
-            SetColor(wall, new Color(0.9f, 0.9f, 0.9f));
+            SetColor(wall, color);
         }
 
         private void CreateCeiling(Transform parent, float size, float height)
@@ -68,19 +68,26 @@ namespace TheCube
             var ceiling = GameObject.CreatePrimitive(PrimitiveType.Cube);
             ceiling.name = "Ceiling";
             ceiling.transform.parent = parent;
-            ceiling.transform.localScale = new Vector3(size, 0.25f, size);
+            ceiling.transform.localScale = new Vector3(size, 0.2f, size);
             ceiling.transform.localPosition = new Vector3(0f, height, 0f);
             SetColor(ceiling, new Color(0.95f, 0.95f, 0.95f));
         }
 
         private void CreateCorridorDetail(Transform parent, float roomSize)
         {
-            var pillar = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            var pillar = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
             pillar.name = "Corridor Pillar";
             pillar.transform.parent = parent;
             pillar.transform.localScale = new Vector3(1f, 3f, 1f);
             pillar.transform.localPosition = new Vector3(0f, 1.5f, 0f);
-            SetColor(pillar, new Color(0.75f, 0.75f, 0.8f));
+            SetColor(pillar, new Color(0.65f, 0.65f, 0.75f));
+
+            var bench = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            bench.name = "Bench";
+            bench.transform.parent = parent;
+            bench.transform.localScale = new Vector3(2f, 0.4f, 0.8f);
+            bench.transform.localPosition = new Vector3(-2.5f, 0.2f, 0f);
+            SetColor(bench, new Color(0.45f, 0.45f, 0.55f));
         }
 
         private void CreatePuzzleDetail(Transform parent, float roomSize)
@@ -88,6 +95,13 @@ namespace TheCube
             CreatePlate(parent, new Vector3(-2f, 0.01f, 0f), "Pressure Plate");
             CreatePlate(parent, new Vector3(2f, 0.01f, 0f), "Pressure Plate");
             CreateBlock(parent, new Vector3(0f, 0.5f, 0f), "Puzzle Cube", new Color(0.35f, 0.74f, 0.98f));
+
+            var pillar = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+            pillar.name = "Puzzle Pillar";
+            pillar.transform.parent = parent;
+            pillar.transform.localScale = new Vector3(0.5f, 1.5f, 0.5f);
+            pillar.transform.localPosition = new Vector3(2.5f, 0.75f, 2f);
+            SetColor(pillar, new Color(0.55f, 0.6f, 0.9f));
         }
 
         private void CreateChallengeDetail(Transform parent, float roomSize)
@@ -100,16 +114,37 @@ namespace TheCube
             hazard.transform.localRotation = Quaternion.Euler(0f, 0f, 90f);
             SetColor(hazard, new Color(0.9f, 0.25f, 0.25f));
             hazard.AddComponent<Spinner>();
+
+            var platform = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            platform.name = "Challenge Platform";
+            platform.transform.parent = parent;
+            platform.transform.localScale = new Vector3(4f, 0.2f, 4f);
+            platform.transform.localPosition = new Vector3(0f, 0.1f, -2f);
+            SetColor(platform, new Color(0.7f, 0.35f, 0.35f));
         }
 
         private void CreateTreasureDetail(Transform parent, float roomSize)
         {
-            var treasure = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            treasure.name = "Treasure";
+            var pedestal = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+            pedestal.name = "Treasure Pedestal";
+            pedestal.transform.parent = parent;
+            pedestal.transform.localScale = new Vector3(1.5f, 0.5f, 1.5f);
+            pedestal.transform.localPosition = new Vector3(0f, 0.25f, 0f);
+            SetColor(pedestal, new Color(0.6f, 0.5f, 0.15f));
+
+            var treasure = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            treasure.name = "Treasure Orb";
             treasure.transform.parent = parent;
-            treasure.transform.localScale = new Vector3(1f, 1f, 1f);
-            treasure.transform.localPosition = new Vector3(0f, 0.5f, 0f);
-            SetColor(treasure, new Color(1f, 0.85f, 0.1f));
+            treasure.transform.localScale = Vector3.one * 0.8f;
+            treasure.transform.localPosition = new Vector3(0f, 1.1f, 0f);
+            SetColor(treasure, new Color(1f, 0.85f, 0.2f));
+
+            var gem = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            gem.name = "Gem";
+            gem.transform.parent = parent;
+            gem.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
+            gem.transform.localPosition = new Vector3(0.8f, 0.9f, 0.8f);
+            SetColor(gem, new Color(0.3f, 0.95f, 1f));
         }
 
         private void CreatePlate(Transform parent, Vector3 localPosition, string name)

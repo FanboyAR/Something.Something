@@ -45,27 +45,46 @@ namespace TheCube.Editor
 
         public static void PopulateStarterScene(Scene scene)
         {
-            if (scene.GetRootGameObjects().Length > 0 && GameObject.Find("StarterRoomRoot") != null)
-                return;
-
+            ClearScene(scene);
             CreateLighting();
+            CreateGroundPlane();
             CreateStarterRooms();
-            CreatePlayerStart(new Vector3(-14f, 1f, 0f));
-
+            CreatePlayerStart(new Vector3(-24f, 1f, 0f));
             EditorSceneManager.MarkSceneDirty(scene);
+        }
+
+        private static void ClearScene(Scene scene)
+        {
+            var rootObjects = scene.GetRootGameObjects();
+            foreach (var root in rootObjects)
+            {
+                Object.DestroyImmediate(root);
+            }
         }
 
         private static void CreateLighting()
         {
-            if (GameObject.Find("Directional Light") != null)
-                return;
-
             var lightGO = new GameObject("Directional Light");
             var light = lightGO.AddComponent<Light>();
             light.type = LightType.Directional;
-            light.intensity = 1.1f;
+            light.intensity = 1.2f;
             light.shadows = LightShadows.Soft;
             lightGO.transform.rotation = Quaternion.Euler(45f, -30f, 0f);
+        }
+
+        private static void CreateGroundPlane()
+        {
+            var ground = GameObject.CreatePrimitive(PrimitiveType.Plane);
+            ground.name = "Ground";
+            ground.transform.position = Vector3.zero;
+            ground.transform.localScale = Vector3.one * 6f;
+            var renderer = ground.GetComponent<Renderer>();
+            if (renderer != null)
+            {
+                var material = new Material(Shader.Find("Standard"));
+                material.color = new Color(0.4f, 0.4f, 0.45f);
+                renderer.sharedMaterial = material;
+            }
         }
 
         private static void CreateStarterRooms()
@@ -75,22 +94,22 @@ namespace TheCube.Editor
             factoryGO.transform.parent = root.transform;
             var factory = factoryGO.AddComponent<RoomFactory>();
 
-            const float spacing = 14f;
-            var corridorRoom = factory.CreateRoom(RoomType.Corridor, new Vector3(-spacing, 0f, 0f), Quaternion.identity);
+            const float spacing = 16f;
+            var corridorRoom = factory.CreateRoom(RoomType.Corridor, new Vector3(-spacing * 1.5f, 0f, 0f), Quaternion.identity);
             corridorRoom.transform.parent = root.transform;
             OpenRoomWall(corridorRoom, Vector3.right);
 
-            var puzzleRoom = factory.CreateRoom(RoomType.Puzzle, new Vector3(0f, 0f, 0f), Quaternion.identity);
+            var puzzleRoom = factory.CreateRoom(RoomType.Puzzle, new Vector3(-spacing * 0.5f, 0f, 0f), Quaternion.identity);
             puzzleRoom.transform.parent = root.transform;
             OpenRoomWall(puzzleRoom, Vector3.left);
             OpenRoomWall(puzzleRoom, Vector3.right);
 
-            var challengeRoom = factory.CreateRoom(RoomType.Challenge, new Vector3(spacing, 0f, 0f), Quaternion.identity);
+            var challengeRoom = factory.CreateRoom(RoomType.Challenge, new Vector3(spacing * 0.5f, 0f, 0f), Quaternion.identity);
             challengeRoom.transform.parent = root.transform;
             OpenRoomWall(challengeRoom, Vector3.left);
             OpenRoomWall(challengeRoom, Vector3.right);
 
-            var treasureRoom = factory.CreateRoom(RoomType.Treasure, new Vector3(spacing * 2f, 0f, 0f), Quaternion.identity);
+            var treasureRoom = factory.CreateRoom(RoomType.Treasure, new Vector3(spacing * 1.5f, 0f, 0f), Quaternion.identity);
             treasureRoom.transform.parent = root.transform;
             OpenRoomWall(treasureRoom, Vector3.left);
         }
@@ -112,8 +131,12 @@ namespace TheCube.Editor
 
         private static void CreatePlayerStart(Vector3 position)
         {
-            if (GameObject.Find("Player") != null)
+            var existingPlayer = GameObject.Find("Player");
+            if (existingPlayer != null)
+            {
+                existingPlayer.transform.position = position;
                 return;
+            }
 
             var player = new GameObject("Player");
             player.transform.position = position;
@@ -130,7 +153,6 @@ namespace TheCube.Editor
             cameraHolder.transform.localPosition = new Vector3(0f, 0.9f, 0f);
 
             var cameraGO = new GameObject("Main Camera");
-            var camera = cameraGO.AddComponent<Camera>();
             cameraGO.tag = "MainCamera";
             cameraGO.transform.parent = cameraHolder.transform;
             cameraGO.transform.localPosition = Vector3.zero;
