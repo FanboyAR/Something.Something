@@ -143,22 +143,24 @@ namespace TheCube.Editor
                 player.transform.position = position;
 
                 var cc = player.AddComponent<CharacterController>();
-                cc.height = 1.8f;
-                cc.center = new Vector3(0f, 0.9f, 0f);
-                cc.radius = 0.3f;
+                cc.height = 1.7f;
+                cc.center = new Vector3(0f, 0.85f, 0f);
+                cc.radius = 0.2f;
 
                 player.AddComponent<TheCube.PlayerController>();
             }
             else
             {
                 player.transform.position = position;
-                if (player.GetComponent<CharacterController>() == null)
+                var cc = player.GetComponent<CharacterController>();
+                if (cc == null)
                 {
-                    var cc = player.AddComponent<CharacterController>();
-                    cc.height = 1.8f;
-                    cc.center = new Vector3(0f, 0.9f, 0f);
-                    cc.radius = 0.3f;
+                    cc = player.AddComponent<CharacterController>();
                 }
+                cc.height = 1.7f;
+                cc.center = new Vector3(0f, 0.85f, 0f);
+                cc.radius = 0.2f;
+
                 if (player.GetComponent<TheCube.PlayerController>() == null)
                 {
                     player.AddComponent<TheCube.PlayerController>();
@@ -181,8 +183,8 @@ namespace TheCube.Editor
                 var bodyGO = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 bodyGO.name = "PlayerBody";
                 bodyGO.transform.parent = playerTransform;
-                bodyGO.transform.localPosition = new Vector3(0f, 0.8f, -0.5f);
-                bodyGO.transform.localScale = new Vector3(0.8f, 1.6f, 0.8f);
+                bodyGO.transform.localPosition = new Vector3(0f, 0.75f, -0.3f);
+                bodyGO.transform.localScale = new Vector3(0.5f, 1.6f, 0.5f);
                 var renderer = bodyGO.GetComponent<Renderer>();
                 if (renderer != null)
                 {
