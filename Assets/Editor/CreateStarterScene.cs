@@ -45,6 +45,13 @@ namespace TheCube.Editor
 
         public static void PopulateStarterScene(Scene scene)
         {
+            bool hasStarterRoot = GameObject.Find("StarterRoomRoot") != null;
+            bool hasPlayer = GameObject.Find("Player") != null;
+            bool hasCamera = GameObject.FindGameObjectWithTag("MainCamera")?.GetComponent<Camera>() != null;
+
+            if (hasStarterRoot && hasPlayer && hasCamera)
+                return;
+
             ClearScene(scene);
             CreateLighting();
             CreateGroundPlane();
@@ -131,36 +138,102 @@ namespace TheCube.Editor
 
         private static void CreatePlayerStart(Vector3 position)
         {
-            var existingPlayer = GameObject.Find("Player");
-            if (existingPlayer != null)
+            var player = GameObject.Find("Player");
+            if (player == null)
             {
-                existingPlayer.transform.position = position;
-                return;
+                player = new GameObject("Player");
+                player.transform.position = position;
+
+                var cc = player.AddComponent<CharacterController>();
+                cc.height = 1.8f;
+                cc.center = new Vector3(0f, 0.9f, 0f);
+                cc.radius = 0.3f;
+
+                player.AddComponent<TheCube.PlayerController>();
+            }
+            else
+            {
+                player.transform.position = position;
+                if (player.GetComponent<CharacterController>() == null)
+                {
+                    var cc = player.AddComponent<CharacterController>();
+                    cc.height = 1.8f;
+                    cc.center = new Vector3(0f, 0.9f, 0f);
+                    cc.radius = 0.3f;
+                }
+                if (player.GetComponent<TheCube.PlayerController>() == null)
+                {
+                    player.AddComponent<TheCube.PlayerController>();
+                }
             }
 
-            var player = new GameObject("Player");
-            player.transform.position = position;
+            CreatePlayerBody(player.transform);
+            var cameraHolder = CreateCameraHolder(player.transform);
+            var cameraGO = CreateMainCamera(cameraHolder.transform);
 
-            var cc = player.AddComponent<CharacterController>();
-            cc.height = 1.8f;
-            cc.center = new Vector3(0f, 0.9f, 0f);
-            cc.radius = 0.3f;
-
-            var playerController = player.AddComponent<TheCube.PlayerController>();
-
-            var cameraHolder = new GameObject("CameraHolder");
-            cameraHolder.transform.parent = player.transform;
-            cameraHolder.transform.localPosition = new Vector3(0f, 0.9f, 0f);
-
-            var cameraGO = new GameObject("Main Camera");
-            cameraGO.tag = "MainCamera";
-            cameraGO.transform.parent = cameraHolder.transform;
-            cameraGO.transform.localPosition = Vector3.zero;
-            cameraGO.transform.localRotation = Quaternion.identity;
-            cameraGO.AddComponent<AudioListener>();
-            cameraGO.AddComponent<TheCube.FPSCamera>();
-
+            var playerController = player.GetComponent<TheCube.PlayerController>();
             playerController.cameraHolder = cameraHolder.transform;
+        }
+
+        private static void CreatePlayerBody(Transform playerTransform)
+        {
+            var body = playerTransform.Find("PlayerBody");
+            if (body == null)
+            {
+                var bodyGO = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                bodyGO.name = "PlayerBody";
+                bodyGO.transform.parent = playerTransform;
+                bodyGO.transform.localPosition = new Vector3(0f, 0.9f, 0f);
+                bodyGO.transform.localScale = new Vector3(0.8f, 1.8f, 0.8f);
+                var renderer = bodyGO.GetComponent<Renderer>();
+                if (renderer != null)
+                {
+                    var material = new Material(Shader.Find("Standard"));
+                    material.color = new Color(0.2f, 0.6f, 0.9f);
+                    renderer.sharedMaterial = material;
+                }
+            }
+        }
+
+        private static GameObject CreateCameraHolder(Transform parent)
+        {
+            var holder = parent.Find("CameraHolder");
+            if (holder == null)
+            {
+                var holderGO = new GameObject("CameraHolder");
+                holderGO.transform.parent = parent;
+                holderGO.transform.localPosition = new Vector3(0f, 1.4f, -2.5f);
+                holderGO.transform.localRotation = Quaternion.identity;
+                return holderGO;
+            }
+            return holder.gameObject;
+        }
+
+        private static GameObject CreateMainCamera(Transform holder)
+        {
+            var cameraGO = holder.Find("Main Camera");
+            if (cameraGO == null)
+            {
+                cameraGO = new GameObject("Main Camera");
+                cameraGO.tag = "MainCamera";
+                cameraGO.transform.parent = holder;
+                cameraGO.transform.localPosition = Vector3.zero;
+                cameraGO.transform.localRotation = Quaternion.identity;
+                cameraGO.AddComponent<AudioListener>();
+                cameraGO.AddComponent<TheCube.FPSCamera>();
+            }
+            else
+            {
+                cameraGO.tag = "MainCamera";
+                if (cameraGO.GetComponent<Camera>() == null)
+                    cameraGO.AddComponent<Camera>();
+                if (cameraGO.GetComponent<AudioListener>() == null)
+                    cameraGO.AddComponent<AudioListener>();
+                if (cameraGO.GetComponent<TheCube.FPSCamera>() == null)
+                    cameraGO.AddComponent<TheCube.FPSCamera>();
+            }
+
+            return cameraGO.gameObject;
         }
     }
 }
