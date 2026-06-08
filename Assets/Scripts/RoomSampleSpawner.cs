@@ -11,7 +11,7 @@ namespace TheCube
         {
             if (factory == null)
             {
-                factory = FindObjectOfType<RoomFactory>();
+                factory = Object.FindAnyObjectByType<RoomFactory>();
                 if (factory == null)
                 {
                     var factoryGO = new GameObject("RoomFactory");
