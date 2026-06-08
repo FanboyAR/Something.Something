@@ -14,5 +14,5 @@ Git:
 Next steps:
 - Open the project in Unity and let it compile.
 - The starter scene will be generated automatically at `Assets/Scenes/StarterScene.unity`.
-- If you want, I can also add a second prototype scene, more room prefabs, or UI.
+- To see room examples, use the Unity menu: `TheCube → Create Room Sample Scene`.
  - Design: See the full game design and roadmap in `Documentation/GameDesign.md`.
