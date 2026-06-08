@@ -1,0 +1,53 @@
+# Unity generated files
+[Ll]ibrary/
+[Tt]emp/
+[obj]/
+[Bb]uild/
+[Bb]uilds/
+[Dd]ebug/
+*.pidb
+*.suo
+*.user
+*.userprefs
+*.unityproj
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+*.DS_Store
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Visual Studio
+.vs/
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userosscache
+*.sln.docstates
+
+# Rider
+.idea/
+*.sln.iml
+
+# Avoid committing auto-generated JetBrains Rider files
+.idea/
+
+# Unity3D generated meta files
+*.pidb.meta
+
+# Gradle
+.gradle/
+
+# Unity Cache Server
+com.unity.collab-proxy/
+
+# Crashlytics
+crashlytics-build.properties

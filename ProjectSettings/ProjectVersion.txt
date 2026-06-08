@@ -1,0 +1,1 @@
+m_EditorVersion: Unity 6.0 (6000.0.72f1) LTS
