@@ -48,8 +48,9 @@ namespace TheCube.Editor
             bool hasStarterRoot = GameObject.Find("StarterRoomRoot") != null;
             bool hasPlayer = GameObject.Find("Player") != null;
             bool hasCamera = GameObject.FindGameObjectWithTag("MainCamera")?.GetComponent<Camera>() != null;
+            bool hasFactory = Object.FindObjectOfType<RoomFactory>() != null;
 
-            if (hasStarterRoot && hasPlayer && hasCamera)
+            if (hasStarterRoot && hasPlayer && hasCamera && hasFactory)
                 return;
 
             ClearScene(scene);
