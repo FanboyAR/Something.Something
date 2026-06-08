@@ -12,5 +12,7 @@ Git:
 - Git LFS is configured for common asset types. Run `git lfs install` if needed.
 
 Next steps:
-- Open the project in Unity and create your first scene under `Assets/`.
-- If you want, I can add a starter prototype scene and example scripts.
+- Open the project in Unity and let it compile.
+- The starter scene will be generated automatically at `Assets/Scenes/StarterScene.unity`.
+- If you want, I can also add a second prototype scene, more room prefabs, or UI.
+ - Design: See the full game design and roadmap in `Documentation/GameDesign.md`.

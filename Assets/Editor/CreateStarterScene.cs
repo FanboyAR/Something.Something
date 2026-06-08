@@ -6,11 +6,33 @@ using UnityEngine.SceneManagement;
 
 namespace TheCube.Editor
 {
+    [InitializeOnLoad]
     public static class CreateStarterScene
     {
+        static CreateStarterScene()
+        {
+            EditorApplication.delayCall += EnsureStarterSceneExists;
+        }
+
+        private static void EnsureStarterSceneExists()
+        {
+            const string scenePath = "Assets/Scenes/StarterScene.unity";
+            if (AssetDatabase.LoadAssetAtPath<SceneAsset>(scenePath) == null)
+            {
+                Create();
+            }
+        }
+
         [MenuItem("TheCube/Create Starter Scene")]
         public static void Create()
         {
+            const string scenePath = "Assets/Scenes/StarterScene.unity";
+            if (AssetDatabase.LoadAssetAtPath<SceneAsset>(scenePath) != null)
+            {
+                Debug.Log("Starter scene already exists: " + scenePath);
+                return;
+            }
+
             // Create new empty scene
             var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
 
