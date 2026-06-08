@@ -15,10 +15,12 @@ namespace TheCube
         public Transform cameraHolder;
         public float mouseSensitivity = 2.0f;
         public float maxLookAngle = 85f;
+        public bool lockCursor = true;
 
         private CharacterController cc;
         private Vector3 velocity;
         private float verticalLookRotation;
+        private bool cursorLocked;
 
         private void Awake()
         {
@@ -27,8 +29,16 @@ namespace TheCube
                 cameraHolder = Camera.main.transform;
         }
 
+        private void Start()
+        {
+            SetCursorState(lockCursor);
+        }
+
         void Update()
         {
+            if (lockCursor)
+                HandleCursorLock();
+
             HandleLook();
             HandleMovement();
         }
@@ -68,6 +78,25 @@ namespace TheCube
             cc.Move((horizontalVelocity + new Vector3(0, velocity.y, 0)) * Time.deltaTime);
 
             velocity.y += gravity * Time.deltaTime;
+        }
+
+        private void HandleCursorLock()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                SetCursorState(false);
+            }
+            else if (Input.GetMouseButtonDown(0) && !cursorLocked)
+            {
+                SetCursorState(true);
+            }
+        }
+
+        private void SetCursorState(bool locked)
+        {
+            cursorLocked = locked;
+            Cursor.lockState = locked ? CursorLockMode.Locked : CursorLockMode.None;
+            Cursor.visible = !locked;
         }
     }
 }
