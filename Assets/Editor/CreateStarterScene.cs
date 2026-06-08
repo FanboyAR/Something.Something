@@ -9,6 +9,8 @@ namespace TheCube.Editor
     [InitializeOnLoad]
     public static class CreateStarterScene
     {
+        private const string StarterScenePath = "Assets/Scenes/StarterScene.unity";
+
         static CreateStarterScene()
         {
             EditorApplication.delayCall += EnsureStarterSceneExists;
@@ -16,8 +18,7 @@ namespace TheCube.Editor
 
         private static void EnsureStarterSceneExists()
         {
-            const string scenePath = "Assets/Scenes/StarterScene.unity";
-            if (AssetDatabase.LoadAssetAtPath<SceneAsset>(scenePath) == null)
+            if (AssetDatabase.LoadAssetAtPath<SceneAsset>(StarterScenePath) == null)
             {
                 Create();
             }
@@ -26,10 +27,9 @@ namespace TheCube.Editor
         [MenuItem("TheCube/Create Starter Scene")]
         public static void Create()
         {
-            const string scenePath = "Assets/Scenes/StarterScene.unity";
-            if (AssetDatabase.LoadAssetAtPath<SceneAsset>(scenePath) != null)
+            if (AssetDatabase.LoadAssetAtPath<SceneAsset>(StarterScenePath) != null)
             {
-                Debug.Log("Starter scene already exists: " + scenePath);
+                Debug.Log("Starter scene already exists: " + StarterScenePath);
                 return;
             }
 
@@ -77,11 +77,10 @@ namespace TheCube.Editor
 
             // Save scene
             System.IO.Directory.CreateDirectory("Assets/Scenes");
-            var scenePath = "Assets/Scenes/StarterScene.unity";
-            EditorSceneManager.SaveScene(scene, scenePath);
+            EditorSceneManager.SaveScene(scene, StarterScenePath);
             AssetDatabase.Refresh();
 
-            Debug.Log("Starter scene created at " + scenePath + ". Open it in Unity and press Play.");
+            Debug.Log("Starter scene created at " + StarterScenePath + ". Open it in Unity and press Play.");
         }
     }
 }
