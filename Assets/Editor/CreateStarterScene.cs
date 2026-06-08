@@ -168,8 +168,8 @@ namespace TheCube.Editor
             }
 
             CreatePlayerBody(player.transform);
-            var cameraHolder = CreateCameraHolder(player.transform);
-            var cameraGO = CreateMainCamera(cameraHolder.transform);
+            var cameraHolder = CreateCameraHolder(player);
+            var cameraGO = CreateMainCamera(cameraHolder);
 
             var playerController = player.GetComponent<TheCube.PlayerController>();
             playerController.cameraHolder = cameraHolder.transform;
@@ -195,29 +195,29 @@ namespace TheCube.Editor
             }
         }
 
-        private static GameObject CreateCameraHolder(Transform parent)
+        private static GameObject CreateCameraHolder(GameObject parent)
         {
-            var holder = parent.Find("CameraHolder");
-            if (holder == null)
+            var holderTransform = parent.transform.Find("CameraHolder");
+            if (holderTransform == null)
             {
                 var holderGO = new GameObject("CameraHolder");
-                holderGO.transform.parent = parent;
+                holderGO.transform.parent = parent.transform;
                 holderGO.transform.localPosition = new Vector3(0f, 1.4f, -2.5f);
                 holderGO.transform.localRotation = Quaternion.identity;
                 return holderGO;
             }
-            return holder.gameObject;
+            return holderTransform.gameObject;
         }
 
-        private static GameObject CreateMainCamera(Transform holder)
+        private static GameObject CreateMainCamera(GameObject holder)
         {
-            var cameraTransform = holder.Find("Main Camera");
+            var cameraTransform = holder.transform.Find("Main Camera");
             GameObject cameraGO;
             if (cameraTransform == null)
             {
                 cameraGO = new GameObject("Main Camera");
                 cameraGO.tag = "MainCamera";
-                cameraGO.transform.parent = holder;
+                cameraGO.transform.parent = holder.transform;
                 cameraGO.transform.localPosition = Vector3.zero;
                 cameraGO.transform.localRotation = Quaternion.identity;
                 cameraGO.AddComponent<Camera>();
