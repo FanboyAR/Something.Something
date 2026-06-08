@@ -211,19 +211,22 @@ namespace TheCube.Editor
 
         private static GameObject CreateMainCamera(Transform holder)
         {
-            var cameraGO = holder.Find("Main Camera");
-            if (cameraGO == null)
+            var cameraTransform = holder.Find("Main Camera");
+            GameObject cameraGO;
+            if (cameraTransform == null)
             {
                 cameraGO = new GameObject("Main Camera");
                 cameraGO.tag = "MainCamera";
                 cameraGO.transform.parent = holder;
                 cameraGO.transform.localPosition = Vector3.zero;
                 cameraGO.transform.localRotation = Quaternion.identity;
+                cameraGO.AddComponent<Camera>();
                 cameraGO.AddComponent<AudioListener>();
                 cameraGO.AddComponent<TheCube.FPSCamera>();
             }
             else
             {
+                cameraGO = cameraTransform.gameObject;
                 cameraGO.tag = "MainCamera";
                 if (cameraGO.GetComponent<Camera>() == null)
                     cameraGO.AddComponent<Camera>();
@@ -233,7 +236,7 @@ namespace TheCube.Editor
                     cameraGO.AddComponent<TheCube.FPSCamera>();
             }
 
-            return cameraGO.gameObject;
+            return cameraGO;
         }
     }
 }
