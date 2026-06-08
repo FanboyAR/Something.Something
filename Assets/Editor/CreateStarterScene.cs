@@ -202,7 +202,7 @@ namespace TheCube.Editor
             {
                 var holderGO = new GameObject("CameraHolder");
                 holderGO.transform.parent = parent.transform;
-                holderGO.transform.localPosition = new Vector3(0f, 1.4f, -2.5f);
+                holderGO.transform.localPosition = new Vector3(0f, 1.7f, 0f);
                 holderGO.transform.localRotation = Quaternion.identity;
                 return holderGO;
             }
