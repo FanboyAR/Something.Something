@@ -183,8 +183,8 @@ namespace TheCube.Editor
                 var bodyGO = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 bodyGO.name = "PlayerBody";
                 bodyGO.transform.parent = playerTransform;
-                bodyGO.transform.localPosition = new Vector3(0f, 0.9f, 0f);
-                bodyGO.transform.localScale = new Vector3(0.8f, 1.8f, 0.8f);
+                bodyGO.transform.localPosition = new Vector3(0f, 0.8f, -0.5f);
+                bodyGO.transform.localScale = new Vector3(0.8f, 1.6f, 0.8f);
                 var renderer = bodyGO.GetComponent<Renderer>();
                 if (renderer != null)
                 {
@@ -202,7 +202,7 @@ namespace TheCube.Editor
             {
                 var holderGO = new GameObject("CameraHolder");
                 holderGO.transform.parent = parent.transform;
-                holderGO.transform.localPosition = new Vector3(0f, 1.7f, 0f);
+                holderGO.transform.localPosition = new Vector3(0f, 1.7f, 0.4f);
                 holderGO.transform.localRotation = Quaternion.identity;
                 return holderGO;
             }
