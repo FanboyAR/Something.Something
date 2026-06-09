@@ -4,12 +4,39 @@ namespace TheCube
 {
     public class PuzzleManager : MonoBehaviour
     {
-        public void RegisterPuzzle(MonoBehaviour puzzle)
+        private ButtonPad button;
+        private PuzzleBox box;
+        private MazeGate gate;
+
+        public void Register(ButtonPad b, PuzzleBox pb)
         {
+            button = b;
+            box = pb;
         }
 
-        public void CompletePuzzle(MonoBehaviour puzzle)
+        public void Register(ButtonPad b, PuzzleBox pb, MazeGate progressGate)
         {
+            button = b;
+            box = pb;
+            gate = progressGate;
+        }
+
+        private void Update()
+        {
+            if (button == null || box == null) return;
+            if (button.isPressed)
+            {
+                OnSolved();
+            }
+        }
+
+        void OnSolved()
+        {
+            Debug.Log($"PuzzleManager: puzzle solved in {transform.parent?.name}");
+            if (gate != null)
+                gate.Open();
+
+            Destroy(this);
         }
     }
 }

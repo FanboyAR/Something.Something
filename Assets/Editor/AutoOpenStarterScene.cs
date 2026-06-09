@@ -20,6 +20,12 @@ namespace TheCube.Editor
 
         private static void TryOpenStarterScene()
         {
+            // Don't attempt to open scenes while entering or in Play Mode
+            if (EditorApplication.isPlayingOrWillChangePlaymode || EditorApplication.isPlaying)
+            {
+                hasOpened = true;
+                return;
+            }
             if (hasOpened)
                 return;
 
