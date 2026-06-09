@@ -1,6 +1,8 @@
 {
   "dependencies": {
-    "com.unity.inputsystem": "1.6.1",
+    "com.unity.feature.worldbuilding": "1.0.1",
+    "com.unity.ide.visualstudio": "2.0.20",
+    "com.unity.inputsystem": "1.19.0",
     "com.unity.modules.physics": "1.0.0"
   }
 }

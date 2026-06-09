@@ -53,7 +53,7 @@ namespace TheCube.Editor
             CreateLighting();
             CreateGroundPlane();
             CreateStarterRooms();
-            CreatePlayerStart(new Vector3(-24f, 1f, 0f));
+            CreatePlayerStart(new Vector3(-40f, 1f, 0f));
             EditorSceneManager.MarkSceneDirty(scene);
             EditorSceneManager.SaveScene(scene);
         }
