@@ -497,7 +497,7 @@ namespace TheCube
             var key = GameObject.CreatePrimitive(PrimitiveType.Cube);
             key.name = "Exit Key";
             key.transform.SetParent(parent, false);
-            key.transform.localPosition = new Vector3(0f, 1.1f, 0f);
+            key.transform.localPosition = new Vector3(0f, 1.25f, -1.8f);
             key.transform.localRotation = Quaternion.Euler(20f, 35f, 0f);
             key.transform.localScale = Vector3.one * 0.55f;
             SetObjectColor(key, new Color(1f, 0.85f, 0.15f));
@@ -508,8 +508,8 @@ namespace TheCube
 
             key.AddComponent<MazeKeyPickup>();
 
-            CreatePillar(parent, "Key Beacon", new Vector3(0f, 1.2f, 2f), new Color(1f, 0.85f, 0.15f));
-            CreateLabel(parent, "KEY", new Vector3(0f, 2.8f, 2f), new Color(1f, 0.85f, 0.15f));
+            CreatePillar(parent, "Key Beacon", new Vector3(0f, 1.2f, -3f), new Color(1f, 0.85f, 0.15f));
+            CreateLabel(parent, "KEY", new Vector3(0f, 2.8f, -3f), new Color(1f, 0.85f, 0.15f));
         }
 
         void CreateFinishPortal(Transform parent, MazeDirection facingDirection)
@@ -626,18 +626,20 @@ namespace TheCube
 
         void CreateSpinningBeam(Transform parent, Vector3 localPosition, MazeDirection direction)
         {
-            var beam = CreateMarker(parent, "Spinning Beam Hazard", localPosition, new Vector3(0.35f, 0.35f, 5.5f), new Color(0.95f, 0.1f, 0.08f));
+            var beam = CreateMarker(parent, "Spinning Beam Hazard", localPosition, new Vector3(0.45f, 0.45f, 5.5f), new Color(0.95f, 0.1f, 0.08f));
             beam.transform.localRotation = IsNorthSouth(direction) ? Quaternion.identity : Quaternion.Euler(0f, 90f, 0f);
             var collider = beam.GetComponent<Collider>();
             if (collider != null)
-                collider.isTrigger = true;
+                collider.isTrigger = false;
 
             var body = beam.AddComponent<Rigidbody>();
             body.isKinematic = true;
             body.useGravity = false;
 
-            beam.AddComponent<MazeHazard>();
-            beam.AddComponent<Spinner>();
+            var hazard = beam.AddComponent<SpinningHazard>();
+            hazard.speed = 45f;
+            hazard.knockbackForce = 7f;
+            hazard.upwardForce = 2f;
         }
 
         MazeGate CreateProgressGate(Transform parent, MazeDirection direction)

@@ -134,6 +134,12 @@ namespace TheCube
             DropHeldBody();
         }
 
+        public void ApplyExternalImpulse(Vector3 impulse)
+        {
+            horizontalVelocity = new Vector3(impulse.x, 0f, impulse.z);
+            velocity.y = Mathf.Max(velocity.y, impulse.y);
+        }
+
         public void RespawnAtCheckpoint(string reason)
         {
             transform.position = MazeRunState.CheckpointPosition;
